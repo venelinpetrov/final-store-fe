@@ -1,13 +1,12 @@
 import { defineConfig, lazyPlugins } from "vite-plus";
 import react from "@vitejs/plugin-react";
+import fmt from "./oxfmt.config.ts";
 
 // https://vite.dev/config/
 export default defineConfig({
+    fmt,
     staged: {
         "*": "vp check --fix",
-    },
-    fmt: {
-        tabWidth: 4,
     },
     lint: {
         plugins: ["react", "typescript", "oxc"],
