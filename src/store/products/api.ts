@@ -1,4 +1,4 @@
-import { finalStoreApi } from "../initApi";
+import { finalStoreApi } from '../initApi';
 
 export interface Pageable<T> {
     totalElements: number;
@@ -37,8 +37,8 @@ const productsApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
         fetchProducts: build.query<Pageable<Product>, void>({
             query: () => ({
-                url: "/products",
-                method: "GET",
+                url: '/products',
+                method: 'GET',
             }),
         }),
     }),

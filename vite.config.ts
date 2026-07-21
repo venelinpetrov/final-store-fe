@@ -1,24 +1,24 @@
-import { defineConfig, lazyPlugins } from "vite-plus";
-import react from "@vitejs/plugin-react";
-import fmt from "./oxfmt.config.ts";
+import { defineConfig, lazyPlugins } from 'vite-plus';
+import react from '@vitejs/plugin-react';
+import fmt from './oxfmt.config.ts';
 
 // https://vite.dev/config/
 export default defineConfig({
     fmt,
     staged: {
-        "*": "vp check --fix",
+        '*': 'vp check --fix',
     },
     lint: {
-        plugins: ["react", "typescript", "oxc"],
+        plugins: ['react', 'typescript', 'oxc'],
         rules: {
-            "react/rules-of-hooks": "error",
-            "react/only-export-components": [
-                "warn",
+            'react/rules-of-hooks': 'error',
+            'react/only-export-components': [
+                'warn',
                 {
                     allowConstantExport: true,
                 },
             ],
-            "vite-plus/prefer-vite-plus-imports": "error",
+            'vite-plus/prefer-vite-plus-imports': 'error',
         },
         options: {
             typeAware: true,
@@ -26,8 +26,8 @@ export default defineConfig({
         },
         jsPlugins: [
             {
-                name: "vite-plus",
-                specifier: "vite-plus/oxlint-plugin",
+                name: 'vite-plus',
+                specifier: 'vite-plus/oxlint-plugin',
             },
         ],
     },

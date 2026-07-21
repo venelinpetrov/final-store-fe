@@ -1,4 +1,4 @@
-import { useFetchProductsQuery } from "./store/products/api";
+import { useFetchProductsQuery } from './store/products/api';
 
 function App() {
     const { data } = useFetchProductsQuery();
