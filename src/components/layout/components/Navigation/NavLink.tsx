@@ -12,6 +12,7 @@ export const NavItem = ({ to, children }: NavItem) => {
         <NavLink to={to}>
             {({ isActive }) => (
                 <Link
+                    as="span"
                     colorPalette="blue"
                     color={isActive ? 'colorPalette.solid' : 'fg.muted'}
                     _hover={{ color: 'colorPalette.fg' }}
