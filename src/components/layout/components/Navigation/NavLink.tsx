@@ -1,15 +1,15 @@
 import { Link } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
-import { NavLink as ReactRouterNavLink } from 'react-router';
+import { NavLink } from 'react-router';
 
-type NavLinkProps = {
+interface NavItem {
     to: string;
     children: ReactNode;
-};
+}
 
-export const NavItem = ({ to, children }: NavLinkProps) => {
+export const NavItem = ({ to, children }: NavItem) => {
     return (
-        <ReactRouterNavLink to={to}>
+        <NavLink to={to}>
             {({ isActive }) => (
                 <Link
                     colorPalette="blue"
@@ -19,6 +19,6 @@ export const NavItem = ({ to, children }: NavLinkProps) => {
                     {children}
                 </Link>
             )}
-        </ReactRouterNavLink>
+        </NavLink>
     );
 };

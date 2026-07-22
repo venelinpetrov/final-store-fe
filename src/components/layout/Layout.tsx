@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router';
-import './Layout.css';
 import { ColorModeButton } from '../ui/color-mode';
 import { Container, Grid, GridItem, HStack } from '@chakra-ui/react';
 import { Nav } from './components/Navigation/Nav';
