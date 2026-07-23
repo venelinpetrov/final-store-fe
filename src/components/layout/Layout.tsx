@@ -1,4 +1,4 @@
-import { Container, Grid, GridItem, HStack, Image, Separator } from '@chakra-ui/react';
+import { Container, Grid, GridItem, Heading, HStack, Image, Separator } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { HiShoppingCart, HiUser } from 'react-icons/hi';
 import { Outlet, Link as RouterLink } from 'react-router';
@@ -20,7 +20,10 @@ const Layout = () => {
                 py={4}
             >
                 <RouterLink to="/">
-                    <Image src={logo} alt="MySite" h="32px" />
+                    <HStack>
+                        <Image src={logo} alt="MySite" h="32px" />
+                        <Heading as="h1">Final Store</Heading>
+                    </HStack>
                 </RouterLink>
 
                 <Nav />
