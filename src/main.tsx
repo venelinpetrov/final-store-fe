@@ -1,16 +1,17 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as RTKProvider } from 'react-redux';
-import { store } from './store/store.ts';
 import { BrowserRouter, Route, Routes } from 'react-router';
+
 import Layout from './components/layout/Layout.tsx';
-import HomePage from './pages/HomePage.tsx';
-import ProfilePage from './pages/ProfilePage.tsx';
-import AdminPage from './pages/AdminPage.tsx';
 import { Provider as ChakraProvider } from './components/ui/provider';
 import AboutPage from './pages/About.tsx';
-import ContactPage from './pages/Contact.tsx';
+import AdminPage from './pages/AdminPage.tsx';
 import CartPage from './pages/Cart.tsx';
+import ContactPage from './pages/Contact.tsx';
+import HomePage from './pages/HomePage.tsx';
+import ProfilePage from './pages/ProfilePage.tsx';
+import { store } from './store/store.ts';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

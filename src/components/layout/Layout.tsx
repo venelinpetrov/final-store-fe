@@ -1,10 +1,11 @@
-import { Outlet, Link as RouterLink } from 'react-router';
-import { ColorModeButton } from '../ui/color-mode';
 import { Container, Grid, GridItem, HStack, Image, Separator } from '@chakra-ui/react';
-import { Nav } from './components/Navigation/Nav';
-import logo from '../../assets/icons/favicon.svg';
 import { Icon } from '@chakra-ui/react';
 import { HiShoppingCart, HiUser } from 'react-icons/hi';
+import { Outlet, Link as RouterLink } from 'react-router';
+
+import logo from '../../assets/icons/favicon.svg';
+import { ColorModeButton } from '../ui/color-mode';
+import { Nav } from './components/Navigation/Nav';
 
 const Layout = () => {
     return (

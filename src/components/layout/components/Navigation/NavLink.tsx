@@ -1,5 +1,6 @@
-import { Link } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
+
+import { Link } from '@chakra-ui/react';
 import { NavLink } from 'react-router';
 
 interface NavItem {

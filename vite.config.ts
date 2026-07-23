@@ -1,5 +1,6 @@
-import { defineConfig, lazyPlugins } from 'vite-plus';
 import react from '@vitejs/plugin-react';
+import { defineConfig, lazyPlugins } from 'vite-plus';
+
 import fmt from './oxfmt.config.ts';
 
 // https://vite.dev/config/

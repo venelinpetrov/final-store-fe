@@ -1,4 +1,5 @@
 import { HStack, Separator } from '@chakra-ui/react';
+
 import { NavItem } from './NavLink';
 
 const links = [
