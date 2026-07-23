@@ -44,6 +44,6 @@ const productsApi = finalStoreApi.injectEndpoints({
     }),
 });
 
-export const { useFetchProductsQuery } = productsApi;
+export const { useFetchProductsQuery, useLazyFetchProductsQuery } = productsApi;
 
 export default productsApi;
