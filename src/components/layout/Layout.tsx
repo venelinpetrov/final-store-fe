@@ -1,11 +1,7 @@
-import { Container, Grid, GridItem, Heading, HStack, Image, Separator } from '@chakra-ui/react';
-import { Icon } from '@chakra-ui/react';
-import { HiShoppingCart, HiUser } from 'react-icons/hi';
-import { Outlet, Link as RouterLink } from 'react-router';
+import { Container, Grid, GridItem, HStack } from '@chakra-ui/react';
+import { Outlet } from 'react-router';
 
-import logo from '../../assets/icons/favicon.svg';
-import { ColorModeButton } from '../ui/color-mode';
-import { Nav } from './components/Navigation/Nav';
+import { SiteHeader } from './components/SiteHeader';
 
 const Layout = () => {
     return (
@@ -19,29 +15,7 @@ const Layout = () => {
                 px={8}
                 py={4}
             >
-                <RouterLink to="/">
-                    <HStack>
-                        <Image src={logo} alt="MySite" h="32px" />
-                        <Heading as="h1">Final Store</Heading>
-                    </HStack>
-                </RouterLink>
-
-                <Nav />
-
-                <HStack gap={8}>
-                    <RouterLink to="/cart">
-                        <Icon size="lg" _hover={{ color: 'fg.info' }}>
-                            <HiShoppingCart />
-                        </Icon>
-                    </RouterLink>
-                    <RouterLink to="/profile">
-                        <Icon size="lg" _hover={{ color: 'fg.info' }}>
-                            <HiUser />
-                        </Icon>
-                    </RouterLink>
-                    <Separator h="4" size="md" orientation="vertical" />
-                    <ColorModeButton />
-                </HStack>
+                <SiteHeader />
             </GridItem>
             <GridItem as={Container} py={4} overflow="auto">
                 <Outlet />
