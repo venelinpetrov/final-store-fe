@@ -3,7 +3,8 @@ import { NavItem } from './NavLink';
 
 const links = [
     { to: '/', label: 'Home' },
-    { to: '/profile', label: 'Profile' },
+    { to: '/contact', label: 'Contact us' },
+    { to: '/about', label: 'About us' },
     { to: '/admin', label: 'Admin' },
 ];
 
