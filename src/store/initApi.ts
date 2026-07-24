@@ -13,6 +13,7 @@ export const finalStoreApi = createApi({
             }
             return headers;
         },
+        credentials: 'include',
     }), // TODO: env var
     endpoints: () => ({}) as Record<string, any>,
 });

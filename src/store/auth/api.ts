@@ -6,7 +6,7 @@ export interface User {
     roles: string[]; // TODO Role enum
 }
 
-export interface UserResponse {
+export interface JwtResponse {
     token: string;
 }
 
@@ -17,16 +17,28 @@ export interface LoginRequest {
 
 const authApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
-        login: build.mutation<UserResponse, LoginRequest>({
+        login: build.mutation<JwtResponse, LoginRequest>({
             query: (credentials) => ({
                 url: '/auth/login',
                 method: 'POST',
                 body: credentials,
             }),
         }),
+
+        // refresh
+        refresh: build.mutation<JwtResponse, void>({
+            query: () => ({
+                url: '/auth/refresh',
+                method: 'POST',
+            }),
+        }),
+
+        // me
+
+        // me/password
     }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRefreshMutation } = authApi;
 
 export default authApi;

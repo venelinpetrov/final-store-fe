@@ -1,11 +1,13 @@
 import { Button, Heading } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 
-import { useLoginMutation } from '../store/auth/api';
+import { useLoginMutation, useRefreshMutation } from '../store/auth/api';
 import { setCredentials } from '../store/auth/authSlice';
 
 const HomePage = () => {
     const [login] = useLoginMutation();
+    const [refresh] = useRefreshMutation();
+
     const dispatch = useDispatch();
     return (
         <>
@@ -21,6 +23,14 @@ const HomePage = () => {
                 }}
             >
                 Login
+            </Button>
+
+            <Button
+                onClick={async () => {
+                    refresh();
+                }}
+            >
+                Refresh
             </Button>
         </>
     );
