@@ -1,6 +1,7 @@
 import { finalStoreApi } from '../initApi';
 
 export interface User {
+    id: number;
     name: string;
     email: string;
     roles: string[]; // TODO Role enum
@@ -34,11 +35,17 @@ const authApi = finalStoreApi.injectEndpoints({
         }),
 
         // me
+        me: build.query<User, void>({
+            query: () => ({
+                url: '/auth/me',
+                method: 'GET',
+            }),
+        }),
 
         // me/password
     }),
 });
 
-export const { useLoginMutation, useRefreshMutation } = authApi;
+export const { useLoginMutation, useRefreshMutation, useLazyMeQuery } = authApi;
 
 export default authApi;

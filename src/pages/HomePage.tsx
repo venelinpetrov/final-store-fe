@@ -1,13 +1,13 @@
 import { Button, Heading } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 
-import { useLoginMutation, useRefreshMutation } from '../store/auth/api';
-import { setCredentials } from '../store/auth/authSlice';
+import { useLazyMeQuery, useLoginMutation, useRefreshMutation } from '../store/auth/api';
+import { setAccessToken } from '../store/auth/authSlice';
 
 const HomePage = () => {
     const [login] = useLoginMutation();
     const [refresh] = useRefreshMutation();
-
+    const [getMe] = useLazyMeQuery();
     const dispatch = useDispatch();
     return (
         <>
@@ -19,7 +19,7 @@ const HomePage = () => {
                         password: '000000',
                     }).unwrap();
 
-                    dispatch(setCredentials({ token: res.token }));
+                    dispatch(setAccessToken({ token: res.token }));
                 }}
             >
                 Login
@@ -31,6 +31,15 @@ const HomePage = () => {
                 }}
             >
                 Refresh
+            </Button>
+
+            <Button
+                onClick={async () => {
+                    const res = await getMe().unwrap();
+                    console.log(res);
+                }}
+            >
+                Me
             </Button>
         </>
     );
