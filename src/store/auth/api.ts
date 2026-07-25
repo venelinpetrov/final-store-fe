@@ -26,7 +26,13 @@ const authApi = finalStoreApi.injectEndpoints({
             }),
         }),
 
-        // refresh
+        logout: build.mutation<void, void>({
+            query: () => ({
+                url: '/auth/logout',
+                method: 'POST',
+            }),
+        }),
+
         refresh: build.mutation<JwtResponse, void>({
             query: () => ({
                 url: '/auth/refresh',
@@ -34,7 +40,6 @@ const authApi = finalStoreApi.injectEndpoints({
             }),
         }),
 
-        // me
         me: build.query<User, void>({
             query: () => ({
                 url: '/auth/me',

@@ -1,14 +1,15 @@
 import { Button, Heading } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 
 import { useLazyMeQuery, useLoginMutation, useRefreshMutation } from '../store/auth/api';
 import { setAccessToken } from '../store/auth/authSlice';
+import { logoutUser } from '../store/auth/thunks';
+import { useAppDispatch } from '../store/store';
 
 const HomePage = () => {
     const [login] = useLoginMutation();
     const [refresh] = useRefreshMutation();
     const [getMe] = useLazyMeQuery();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     return (
         <>
             <Heading>Home</Heading>
@@ -40,6 +41,14 @@ const HomePage = () => {
                 }}
             >
                 Me
+            </Button>
+
+            <Button
+                onClick={() => {
+                    dispatch(logoutUser());
+                }}
+            >
+                Logout
             </Button>
         </>
     );
