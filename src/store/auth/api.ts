@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface JwtResponse {
-    token: string;
+    accessToken: string;
 }
 
 export interface LoginRequest {
@@ -24,6 +24,7 @@ const authApi = finalStoreApi.injectEndpoints({
                 method: 'POST',
                 body: credentials,
             }),
+            invalidatesTags: ['me'],
         }),
 
         logout: build.mutation<void, void>({
@@ -45,12 +46,13 @@ const authApi = finalStoreApi.injectEndpoints({
                 url: '/auth/me',
                 method: 'GET',
             }),
+            providesTags: ['me'],
         }),
 
         // me/password
     }),
 });
 
-export const { useLoginMutation, useRefreshMutation, useLazyMeQuery } = authApi;
+export const { useLoginMutation, useRefreshMutation, useMeQuery, useLazyMeQuery } = authApi;
 
 export default authApi;

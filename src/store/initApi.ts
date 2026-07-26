@@ -13,9 +13,9 @@ import { clearAccessToken, setAccessToken } from './auth/authSlice';
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:8080/api', // TODO: env var
     prepareHeaders: (headers, { getState }) => {
-        const token = (getState() as RootState).auth.token;
-        if (token) {
-            headers.set('authorization', `Bearer ${token}`);
+        const accessToken = (getState() as RootState).auth.accessToken;
+        if (accessToken) {
+            headers.set('authorization', `Bearer ${accessToken}`);
         }
         return headers;
     },
@@ -30,12 +30,15 @@ const baseQueryWithReauth: BaseQueryFn<any, unknown, FetchBaseQueryError> = asyn
     let result = await baseQuery(args, api, extraOptions);
 
     if (result.error?.status === 401) {
-        if (typeof args === 'object' && 'url' in args && args.url?.includes('auth/refresh')) {
+        const url = typeof args === 'string' ? args : args.url;
+
+        if (url?.includes('auth/refresh')) {
             return result;
         }
+
         try {
             const res = await api.dispatch(authApi.endpoints.refresh.initiate()).unwrap();
-            api.dispatch(setAccessToken({ token: res.token }));
+            api.dispatch(setAccessToken({ accessToken: res.accessToken }));
 
             result = await baseQuery(args, api, extraOptions);
         } catch {
@@ -48,6 +51,8 @@ const baseQueryWithReauth: BaseQueryFn<any, unknown, FetchBaseQueryError> = asyn
 
 export const finalStoreApi = createApi({
     reducerPath: 'finalStoreApi',
+    tagTypes: ['me'],
+
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}) as Record<string, any>,
 });

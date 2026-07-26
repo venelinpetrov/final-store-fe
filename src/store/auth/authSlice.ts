@@ -1,32 +1,37 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { jwtDecode } from 'jwt-decode';
 
-import type { RootState } from '../store';
-import type { User } from './api';
+import authApi from './api';
 
 type AuthState = {
-    token: string | null;
-    user: User | null;
+    accessToken: string | null;
 };
 
 const slice = createSlice({
     name: 'auth',
-    initialState: { user: null, token: null } as AuthState,
+    initialState: { accessToken: null } as AuthState,
     reducers: {
-        setAccessToken: (state, { payload: { token } }: PayloadAction<{ token: string }>) => {
-            state.token = token;
-            console.log(jwtDecode(token));
+        setAccessToken: (
+            state,
+            { payload: { accessToken } }: PayloadAction<{ accessToken: string }>,
+        ) => {
+            state.accessToken = accessToken;
         },
         clearAccessToken: (state) => {
-            state.token = null;
+            state.accessToken = null;
         },
+    },
+    extraReducers: (builder) => {
+        builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
+            state.accessToken = payload.accessToken;
+        });
+        builder.addMatcher(authApi.endpoints.refresh.matchFulfilled, (state, { payload }) => {
+            state.accessToken = payload.accessToken;
+        });
     },
 });
 
 export const { setAccessToken, clearAccessToken } = slice.actions;
 
 export default slice.reducer;
-
-export const selectCurrentUser = (state: RootState) => state.auth.user;
