@@ -17,7 +17,14 @@ const Layout = () => {
             >
                 <SiteHeader />
             </GridItem>
-            <GridItem as={Container} py={4} overflow="auto">
+            <GridItem
+                as={Container}
+                py={4}
+                overflow="auto"
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+            >
                 <Outlet />
             </GridItem>
         </Grid>
