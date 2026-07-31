@@ -1,7 +1,7 @@
 import { Spinner, Center } from '@chakra-ui/react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 
-import { useMeQuery } from '../../store/auth/api';
+import { useMeQuery } from '../../api/auth/api';
 
 export const ProtectedRoute = () => {
     const location = useLocation();

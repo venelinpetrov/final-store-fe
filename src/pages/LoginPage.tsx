@@ -3,9 +3,9 @@ import { useFormik } from 'formik';
 import { useLocation, useNavigate } from 'react-router';
 import * as yup from 'yup';
 
-import { useLoginMutation } from '../store/auth/api';
-import { setAccessToken } from '../store/auth/authSlice';
-import { useAppDispatch } from '../store/store';
+import { useLoginMutation } from '../api/auth/api';
+import { setAccessToken } from '../api/auth/authSlice';
+import { useAppDispatch } from '../api/store';
 
 const loginFormSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email field is required'),

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider as RTKProvider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router';
 
+import { store } from './api/store.ts';
 import { ProtectedRoute } from './components/auth/ProtectedRoute.tsx';
 import Layout from './components/layout/Layout.tsx';
 import { Provider as ChakraProvider } from './components/ui/provider';
@@ -13,7 +14,6 @@ import ContactPage from './pages/Contact.tsx';
 import HomePage from './pages/HomePage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
-import { store } from './store/store.ts';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
