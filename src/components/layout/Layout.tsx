@@ -1,7 +1,7 @@
 import { Container, Grid, GridItem, HStack } from '@chakra-ui/react';
 import { Outlet } from 'react-router';
 
-import { SiteHeader } from './components/SiteHeader';
+import { SiteHeader } from './SiteHeader';
 
 const Layout = () => {
     return (

@@ -3,9 +3,9 @@ import { Icon } from '@chakra-ui/react';
 import { HiShoppingCart, HiUser } from 'react-icons/hi';
 import { Link as RouterLink } from 'react-router';
 
-import logo from '../../../assets/icons/favicon.svg';
-import { ColorModeButton } from '../../ui/color-mode';
-import { Nav } from './Nav/Nav';
+import logo from '../../assets/icons/favicon.svg';
+import { ColorModeButton } from '../common/ColorMode';
+import { Nav } from './Nav';
 
 export const SiteHeader = () => {
     return (

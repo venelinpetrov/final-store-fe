@@ -1,10 +1,10 @@
 import { Button, Heading } from '@chakra-ui/react';
 import { useOutletContext } from 'react-router';
 
-import type { User } from '../api/auth/api';
+import type { User } from '../../api/auth/api';
 
-import { logoutUser } from '../api/auth/thunks';
-import { useAppDispatch } from '../api/store';
+import { logoutUser } from '../../api/auth/thunks';
+import { useAppDispatch } from '../../api/store';
 
 const ProfilePage = () => {
     const { user } = useOutletContext<{ user: User }>();

@@ -5,15 +5,15 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { store } from './api/store.ts';
 import { ProtectedRoute } from './components/auth/ProtectedRoute.tsx';
+import { Provider as ChakraProvider } from './components/common/ChakraProvider.tsx';
 import Layout from './components/layout/Layout.tsx';
-import { Provider as ChakraProvider } from './components/ui/provider';
-import AboutPage from './pages/About.tsx';
-import AdminPage from './pages/AdminPage.tsx';
-import CartPage from './pages/Cart.tsx';
-import ContactPage from './pages/Contact.tsx';
-import HomePage from './pages/HomePage.tsx';
-import LoginPage from './pages/LoginPage.tsx';
-import ProfilePage from './pages/ProfilePage.tsx';
+import AboutPage from './features/about/About.tsx';
+import AdminPage from './features/admin/AdminPage.tsx';
+import CartPage from './features/cart/Cart.tsx';
+import ContactPage from './features/contact/Contact.tsx';
+import HomePage from './features/home/HomePage.tsx';
+import LoginPage from './features/login/LoginPage.tsx';
+import ProfilePage from './features/profile/ProfilePage.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
