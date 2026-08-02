@@ -1,4 +1,4 @@
-import { Container, Grid, GridItem, HStack } from '@chakra-ui/react';
+import { Grid, GridItem, HStack, VStack } from '@chakra-ui/react';
 import { Outlet } from 'react-router';
 
 import { SiteHeader } from './SiteHeader';
@@ -18,12 +18,12 @@ const Layout = () => {
                 <SiteHeader />
             </GridItem>
             <GridItem
-                as={Container}
+                as={VStack}
+                px={8}
                 py={4}
                 overflow="auto"
                 display="flex"
                 flexDirection="column"
-                alignItems="center"
             >
                 <Outlet />
             </GridItem>
