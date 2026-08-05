@@ -1,32 +1,21 @@
-# React + TypeScript + Vite
+# 🚧 Under construction 🚧
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Final Store FE
 
-Currently, two official plugins are available:
+This project is the front-end part of the "Final Store" project.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# Project links
 
-## React Compiler
+[Roadmap](https://github.com/users/venelinpetrov/projects/3)
+[Backend app](https://github.com/venelinpetrov/final-store)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Setup instructions
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-    "$schema": "./node_modules/oxlint/configuration_schema.json",
-    "plugins": ["react", "typescript", "oxc"],
-    "options": {
-        "typeAware": true
-    },
-    "rules": {
-        "react/rules-of-hooks": "error",
-        "react/only-export-components": ["warn", { "allowConstantExport": true }]
-    }
-}
+```bash
+# Install dependencies
+npm i
 ```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+```bash
+# Run the dev server
+npm run dev
+```
