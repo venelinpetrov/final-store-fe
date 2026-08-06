@@ -9,7 +9,13 @@ const HomePage = () => {
     return (
         <>
             <Heading>Products</Heading>
-            <Grid gridTemplateColumns="repeat(5, 1fr)" gap={4}>
+            <Grid
+                gap={4}
+                xl={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
+                lg={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
+                md={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
+                sm={{ gridTemplateColumns: 'repeat(1, 1fr)' }}
+            >
                 {data?.content.map(({ name, description, images, productId }) => (
                     <ProductCard
                         key={productId}
