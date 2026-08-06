@@ -3,19 +3,29 @@ import { AspectRatio, Box, Carousel, IconButton } from '@chakra-ui/react';
 import { forwardRef, useMemo } from 'react';
 import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
 
-import type { ProductImage } from '../../../types/product';
+import type { ProductVariantSummary } from '../../../types/product';
 interface ProductCardProps {
     name: string;
     description: string;
-    price: number;
-    images: ProductImage[];
+    variants: ProductVariantSummary[];
 }
 
-export const ProductCard = ({ name, description, price, images }: ProductCardProps) => {
+export const ProductCard = ({ name, description, variants }: ProductCardProps) => {
     const carouselImages = useMemo(
-        () => images.map(({ link, altText }) => ({ src: link, alt: altText })),
-        [images],
+        () =>
+            variants.flatMap(({ images }) =>
+                images.map(({ link, altText }) => ({ src: link, alt: altText })),
+            ),
+        [variants],
     );
+
+    const minPrice = variants.reduce((acc, curr) => {
+        if (curr.unitPrice < acc) {
+            return acc;
+        }
+        acc = curr.unitPrice;
+        return acc;
+    }, 0);
 
     return (
         <Card.Root maxW="sm" overflow="hidden" flexShrink={0}>
@@ -25,7 +35,7 @@ export const ProductCard = ({ name, description, price, images }: ProductCardPro
                 <Card.Description>{description}</Card.Description>
                 <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
                     {/* TODO: format currency */}
-                    {price}
+                    From €{minPrice}
                 </Text>
             </Card.Body>
             <Card.Footer gap="2">

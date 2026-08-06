@@ -1,12 +1,12 @@
 import type { Pageable } from '../../types/common/pageable';
-import type { Product } from '../../types/product';
+import type { ProductSummary } from '../../types/product';
 
 import { finalStoreApi } from '../initApi';
 
 const productsApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
         fetchProducts: build.query<
-            Pageable<Product>,
+            Pageable<ProductSummary>,
             { brandId?: number; page?: number; size?: number }
         >({
             query: (params) => ({

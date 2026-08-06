@@ -1,3 +1,5 @@
+import type { Discount } from './discount';
+
 export interface ProductImage {
     imageId: number;
     link: string;
@@ -5,9 +7,16 @@ export interface ProductImage {
     isPrimary: boolean;
 }
 
-export interface Product {
+export interface ProductVariantSummary {
+    variantId: number;
+    unitPrice: number;
+    images: ProductImage[];
+    discount: Discount;
+}
+
+export interface ProductSummary {
     productId: number;
     name: string;
     description: string;
-    images: ProductImage[];
+    variants: ProductVariantSummary[];
 }

@@ -5,7 +5,7 @@ import { useFetchProductsQuery } from '../../api/products/api';
 import { Pager } from '../../components/common/Pager';
 import { ProductCard } from './components/ProductCard';
 
-const DEFAULT_PAGE_SIZE = 0;
+const DEFAULT_PAGE_SIZE = 8;
 
 const HomePage = () => {
     const [page, setPage] = useState(0);
@@ -15,13 +15,12 @@ const HomePage = () => {
         () =>
             isFetching
                 ? 'loading...'
-                : data?.content.map(({ name, description, images, productId }) => (
+                : data?.content.map(({ name, description, productId, variants }) => (
                       <ProductCard
                           key={productId}
                           name={name}
                           description={description}
-                          images={images}
-                          price={100} // TODO
+                          variants={variants}
                       />
                   )),
         [isFetching, data?.content],
