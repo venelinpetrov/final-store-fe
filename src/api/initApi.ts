@@ -51,7 +51,7 @@ const baseQueryWithReauth: BaseQueryFn<any, unknown, FetchBaseQueryError> = asyn
 
 export const finalStoreApi = createApi({
     reducerPath: 'finalStoreApi',
-    tagTypes: ['me'],
+    tagTypes: ['me', 'products'],
 
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}) as Record<string, any>,

@@ -32,7 +32,7 @@ const LoginPage = () => {
 
                 dispatch(setAccessToken({ accessToken: res.accessToken }));
 
-                navigate(from, { replace: true });
+                await navigate(from, { replace: true });
             } catch (err) {
                 console.error(err);
             } finally {

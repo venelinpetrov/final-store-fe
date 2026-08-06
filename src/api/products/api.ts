@@ -5,11 +5,16 @@ import { finalStoreApi } from '../initApi';
 
 const productsApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
-        fetchProducts: build.query<Pageable<Product>, void>({
-            query: () => ({
+        fetchProducts: build.query<
+            Pageable<Product>,
+            { brandId?: number; page?: number; size?: number }
+        >({
+            query: (params) => ({
                 url: '/products',
                 method: 'GET',
+                params,
             }),
+            providesTags: ['products'],
         }),
     }),
 });
