@@ -19,13 +19,13 @@ export const ProductCard = ({ name, description, variants }: ProductCardProps) =
         [variants],
     );
 
-    const minPrice = variants.reduce((acc, curr) => {
-        if (curr.unitPrice < acc) {
-            return acc;
+    const minPrice = variants.reduce((minPrice, { unitPrice }) => {
+        if (unitPrice < minPrice) {
+            minPrice = unitPrice;
+            return minPrice;
         }
-        acc = curr.unitPrice;
-        return acc;
-    }, 0);
+        return minPrice;
+    }, Number.MAX_SAFE_INTEGER);
 
     return (
         <Card.Root maxW="sm" overflow="hidden" flexShrink={0}>
