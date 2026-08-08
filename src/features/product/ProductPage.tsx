@@ -7,7 +7,7 @@ import { ProductCard } from './components/ProductCard';
 
 const DEFAULT_PAGE_SIZE = 8;
 
-const HomePage = () => {
+const ProductPage = () => {
     const [page, setPage] = useState(0);
     const { data, isFetching } = useFetchProductsQuery({ page, size: DEFAULT_PAGE_SIZE });
 
@@ -48,4 +48,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default ProductPage;

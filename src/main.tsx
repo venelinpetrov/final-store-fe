@@ -11,8 +11,8 @@ import AboutPage from './features/about/About.tsx';
 import AdminPage from './features/admin/AdminPage.tsx';
 import CartPage from './features/cart/Cart.tsx';
 import ContactPage from './features/contact/Contact.tsx';
-import HomePage from './features/home/HomePage.tsx';
 import LoginPage from './features/login/LoginPage.tsx';
+import ProductPage from './features/product/ProductPage.tsx';
 import ProfilePage from './features/profile/ProfilePage.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -22,7 +22,7 @@ createRoot(document.getElementById('root')!).render(
                 <BrowserRouter>
                     <Routes>
                         <Route element={<Layout />}>
-                            <Route index element={<HomePage />} />
+                            <Route index element={<ProductPage />} />
                             <Route path="/about" element={<AboutPage />} />
                             <Route path="/contact" element={<ContactPage />} />
                             <Route path="/login" element={<LoginPage />} />
