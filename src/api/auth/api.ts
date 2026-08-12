@@ -1,11 +1,6 @@
-import { finalStoreApi } from '../initApi';
+import type { User } from '../../types/user';
 
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    roles: string[]; // TODO Role enum
-}
+import { finalStoreApi } from '../initApi';
 
 export interface JwtResponse {
     accessToken: string;
