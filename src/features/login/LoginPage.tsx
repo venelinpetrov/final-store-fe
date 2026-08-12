@@ -6,6 +6,8 @@ import * as yup from 'yup';
 import { useLoginMutation } from '../../api/auth/api';
 import { setAccessToken } from '../../api/auth/authSlice';
 import { useAppDispatch } from '../../api/store';
+import { toaster } from '../../components/common/Toaster';
+import { isFetchBaseQueryError } from '../../utils/errorTypeGuards';
 
 const loginFormSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email field is required'),
@@ -34,7 +36,12 @@ const LoginPage = () => {
 
                 await navigate(from, { replace: true });
             } catch (err) {
-                console.error(err);
+                if (isFetchBaseQueryError(err) && err.status === 401) {
+                    toaster.create({
+                        title: 'Bad credentials',
+                        type: 'error',
+                    });
+                }
             } finally {
                 resetForm();
             }
@@ -74,6 +81,7 @@ const LoginPage = () => {
                     <Field.RequiredIndicator />
                 </Field.Label>
                 <Input
+                    type="password"
                     name="password"
                     placeholder="me@example.com"
                     value={values.password}

@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import { store } from './api/store.ts';
 import { ProtectedRoute } from './components/auth/ProtectedRoute.tsx';
 import { Provider as ChakraProvider } from './components/common/ChakraProvider.tsx';
+import { Toaster } from './components/common/Toaster.tsx';
 import Layout from './components/layout/Layout.tsx';
 import AboutPage from './features/about/About.tsx';
 import AdminPage from './features/admin/AdminPage.tsx';
@@ -35,6 +36,7 @@ createRoot(document.getElementById('root')!).render(
                         </Route>
                     </Routes>
                 </BrowserRouter>
+                <Toaster />
             </ChakraProvider>
         </RTKProvider>
     </StrictMode>,

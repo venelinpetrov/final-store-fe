@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import authReducer from './auth/authSlice';
 import { finalStoreApi } from './initApi';
+import { errorMiddleware } from './middleware/errorMiddleware';
 
 export const store = configureStore({
     reducer: {
@@ -10,7 +11,7 @@ export const store = configureStore({
         auth: authReducer,
     },
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(finalStoreApi.middleware);
+        return getDefaultMiddleware().concat(finalStoreApi.middleware, errorMiddleware);
     },
 });
 
