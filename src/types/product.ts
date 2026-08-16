@@ -18,5 +18,22 @@ export interface ProductSummary {
     productId: number;
     name: string;
     description: string;
-    variants: ProductVariantSummary[];
+    variants: ProductVariant[];
+}
+
+export interface ProductVariantOption {
+    optionId: number;
+    optionName: string;
+    value: string;
+    valueId: number;
+}
+
+export interface ProductVariant {
+    variantId: number;
+    sku: string;
+    unitPrice: number;
+    quantityInStock: number;
+    images: ProductImage[];
+    options: ProductVariantOption[] | undefined;
+    discount: Discount | undefined;
 }

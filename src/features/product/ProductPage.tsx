@@ -15,12 +15,12 @@ const ProductPage = () => {
         () =>
             isFetching
                 ? 'loading...'
-                : data?.content.map(({ name, description, productId, variants }) => (
+                : data?.content.map(({ name, description, variants, productId }) => (
                       <ProductCard
                           key={productId}
+                          variants={variants}
                           name={name}
                           description={description}
-                          variants={variants}
                       />
                   )),
         [isFetching, data?.content],

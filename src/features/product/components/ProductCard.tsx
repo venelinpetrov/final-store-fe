@@ -1,41 +1,61 @@
-import { Card, Image, Text, Button } from '@chakra-ui/react';
-import { AspectRatio, Box, Carousel, IconButton } from '@chakra-ui/react';
-import { forwardRef, useMemo } from 'react';
+import type { IconButtonProps } from '@chakra-ui/react';
+
+import {
+    Card,
+    Image,
+    Text,
+    Button,
+    AspectRatio,
+    Box,
+    Carousel,
+    IconButton,
+    DataList,
+    Stack,
+    Tag,
+    HStack,
+} from '@chakra-ui/react';
+import { forwardRef, useMemo, useState } from 'react';
 import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
 
-import type { ProductVariantSummary } from '../../../types/product';
+import type { ProductVariant, ProductVariantOption } from '../../../types/product';
+
+import { DiscountType, type Discount } from '../../../types/discount';
+
 interface ProductCardProps {
     name: string;
     description: string;
-    variants: ProductVariantSummary[];
+    variants: ProductVariant[];
 }
 
 export const ProductCard = ({ name, description, variants }: ProductCardProps) => {
+    const [page, setPage] = useState(0);
+
     const carouselImages = useMemo(
         () =>
             variants.flatMap(({ images }) =>
-                images.map(({ link, altText }) => ({ src: link, alt: altText })),
-            ),
+                images
+                    .filter((image) => image.isPrimary)
+                    .map(({ link, altText }) => ({ src: link, alt: altText })),
+            ) ?? [],
         [variants],
     );
 
-    const minPrice = variants.reduce((minPrice, { unitPrice }) => {
-        if (unitPrice < minPrice) {
-            minPrice = unitPrice;
-            return minPrice;
-        }
-        return minPrice;
-    }, Number.MAX_SAFE_INTEGER);
+    const currentVariant = variants[page];
 
     return (
         <Card.Root maxW="sm" overflow="hidden" flexShrink={0}>
-            <ImageCarousel images={carouselImages} />
+            <ImageCarousel items={carouselImages} page={page} onPageChange={setPage} />
             <Card.Body gap="2">
                 <Card.Title>{name}</Card.Title>
                 <Card.Description>{description}</Card.Description>
+                <OptionsList options={currentVariant.options} />
                 <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
                     {/* TODO: format currency */}
-                    From €{minPrice}
+                    <Price
+                        amount={currentVariant.unitPrice}
+                        discount={currentVariant.discount}
+                        size="lg"
+                    />
                 </Text>
             </Card.Body>
             <Card.Footer gap="2">
@@ -46,16 +66,18 @@ export const ProductCard = ({ name, description, variants }: ProductCardProps) =
     );
 };
 
-import type { IconButtonProps } from '@chakra-ui/react';
-
 interface ImageCarouselProps {
-    images: Array<{ src: string; alt: string }>;
+    items: Array<{ src: string; alt: string }>;
+    page?: number;
+    onPageChange?: ((page: number) => void) | undefined;
 }
 
-const ImageCarousel = ({ images }: ImageCarouselProps) => {
+const ImageCarousel = ({ items, page, onPageChange }: ImageCarouselProps) => {
     return (
         <Carousel.Root
-            slideCount={images.length}
+            page={page}
+            onPageChange={(e) => onPageChange?.(e.page)}
+            slideCount={items.length}
             maxW="2xl"
             position="relative"
             colorPalette="white"
@@ -69,7 +91,7 @@ const ImageCarousel = ({ images }: ImageCarouselProps) => {
                 </Carousel.PrevTrigger>
 
                 <Carousel.ItemGroup width="full">
-                    {images.map(({ src, alt }, index) => (
+                    {items.map(({ src, alt }, index) => (
                         <Carousel.Item key={index} index={index}>
                             <AspectRatio ratio={16 / 9} maxH="72vh" w="full">
                                 <Image src={src} alt={alt} objectFit="contain" />
@@ -114,3 +136,56 @@ const ActionButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         );
     },
 );
+
+const OptionsList = ({ options }: { options: ProductVariantOption[] | undefined }) => (
+    <DataList.Root orientation="horizontal" size="sm" variant="subtle">
+        {options?.map(({ optionId, optionName, value }) => (
+            <DataList.Item key={optionId}>
+                <DataList.ItemLabel>{optionName}</DataList.ItemLabel>
+                <DataList.ItemValue>{value}</DataList.ItemValue>
+            </DataList.Item>
+        )) || null}
+    </DataList.Root>
+);
+
+interface PriceProps {
+    amount: number | undefined;
+    discount: Discount | undefined;
+    size: 'sm' | 'md' | 'lg';
+}
+
+const Price = ({ amount, discount, size }: PriceProps) => {
+    if (typeof amount === 'undefined') {
+        return '';
+    }
+    // TODO currency support. Should come from e.g. "currency provider"
+    const formattedAmount = `€${amount}`;
+    let formattedDiscount = '';
+
+    switch (discount?.discountType) {
+        case DiscountType.FIXED:
+            formattedDiscount = `-€${discount?.value}`;
+            break;
+        case DiscountType.PERCENTAGE:
+            formattedDiscount = `-${discount?.value}%`;
+            break;
+        default:
+            break;
+    }
+
+    return (
+        <Stack>
+            <Text textStyle={size}>{formattedAmount}</Text>
+            {!discount?.value ? (
+                ''
+            ) : (
+                <HStack>
+                    <Tag.Root colorPalette="red">
+                        <Tag.Label>{formattedDiscount}</Tag.Label>
+                    </Tag.Root>
+                    <Text textStyle="xs">Valid until: {discount.validUntil}</Text>
+                </HStack>
+            )}
+        </Stack>
+    );
+};
