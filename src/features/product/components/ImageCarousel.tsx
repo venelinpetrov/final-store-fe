@@ -12,16 +12,21 @@ import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
 interface ImageCarouselProps {
     items: Array<{ src: string; alt: string }>;
     page?: number;
+    showIndicator?: boolean;
     onPageChange?: ((page: number) => void) | undefined;
 }
 
-export const ImageCarousel = ({ items, page, onPageChange }: ImageCarouselProps) => {
+export const ImageCarousel = ({
+    items,
+    page,
+    showIndicator = false,
+    onPageChange,
+}: ImageCarouselProps) => {
     return (
         <Carousel.Root
             page={page}
             onPageChange={(e) => onPageChange?.(e.page)}
             slideCount={items.length}
-            maxW="2xl"
             position="relative"
             colorPalette="white"
             allowMouseDrag
@@ -59,6 +64,29 @@ export const ImageCarousel = ({ items, page, onPageChange }: ImageCarouselProps)
                     />
                 </Box>
             </Carousel.Control>
+            {showIndicator && (
+                <Carousel.IndicatorGroup>
+                    {items.map((item, index) => (
+                        <Carousel.Indicator
+                            key={index}
+                            index={index}
+                            unstyled
+                            _current={{
+                                outline: '2px solid currentColor',
+                                outlineOffset: '2px',
+                            }}
+                        >
+                            <Image
+                                w="20"
+                                aspectRatio="16/9"
+                                src={item.src}
+                                alt={item.alt}
+                                objectFit="cover"
+                            />
+                        </Carousel.Indicator>
+                    ))}
+                </Carousel.IndicatorGroup>
+            )}
         </Carousel.Root>
     );
 };

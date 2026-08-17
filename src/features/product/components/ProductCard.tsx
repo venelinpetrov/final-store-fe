@@ -1,4 +1,4 @@
-import { Card, Text, Button, Link } from '@chakra-ui/react';
+import { Card, Button, Link } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { NavLink } from 'react-router';
 
@@ -39,14 +39,11 @@ export const ProductCard = ({ productId, name, description, variants }: ProductC
                     </Link>{' '}
                 </Card.Title>
                 <Card.Description>{description}</Card.Description>
-                <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
-                    {/* TODO: format currency */}
-                    <Price
-                        amount={currentVariant.unitPrice}
-                        discount={currentVariant.discount}
-                        size="lg"
-                    />
-                </Text>
+                <Price
+                    amount={currentVariant.unitPrice}
+                    discount={currentVariant.discount}
+                    size="lg"
+                />
             </Card.Body>
             <Card.Footer gap="2">
                 <Button variant="solid" asChild>

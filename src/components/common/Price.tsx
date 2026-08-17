@@ -5,10 +5,10 @@ import { DiscountType, type Discount } from '../../types/discount';
 interface PriceProps {
     amount: number | undefined;
     discount: Discount | undefined;
-    size: 'sm' | 'md' | 'lg';
+    size?: 'sm' | 'md' | 'lg';
 }
 
-export const Price = ({ amount, discount, size }: PriceProps) => {
+export const Price = ({ amount, discount, size = 'md' }: PriceProps) => {
     if (typeof amount === 'undefined') {
         return '';
     }
