@@ -18,6 +18,7 @@ const ProductPage = () => {
                 : data?.content.map(({ name, description, variants, productId }) => (
                       <ProductCard
                           key={productId}
+                          productId={productId}
                           variants={variants}
                           name={name}
                           description={description}

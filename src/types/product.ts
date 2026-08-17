@@ -1,5 +1,21 @@
 import type { Discount } from './discount';
 
+export interface Product {
+    productId: number;
+    name: string;
+    description: string;
+    categoryIds: number[];
+    brandId: number;
+    tags: TagSummary[];
+    // images ?
+    // taxCode ?
+}
+
+export interface TagSummary {
+    tagId: number;
+    name: string;
+}
+
 export interface ProductImage {
     imageId: number;
     link: string;

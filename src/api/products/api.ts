@@ -1,10 +1,17 @@
 import type { Pageable } from '../../types/common/pageable';
-import type { ProductSummary, ProductVariant } from '../../types/product';
+import type { Product, ProductSummary, ProductVariant } from '../../types/product';
 
 import { finalStoreApi } from '../initApi';
 
 const productsApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
+        fetchProduct: build.query<Product, { productId: number }>({
+            query: ({ productId }) => ({
+                url: `/products/${productId}`,
+                method: 'GET',
+            }),
+            // providesTags: ['product'],
+        }),
         fetchProducts: build.query<
             Pageable<ProductSummary>,
             { brandId?: number; page?: number; size?: number }
@@ -25,7 +32,11 @@ const productsApi = finalStoreApi.injectEndpoints({
     }),
 });
 
-export const { useFetchProductsQuery, useLazyFetchProductsQuery, useFetchVariantsForProductQuery } =
-    productsApi;
+export const {
+    useFetchProductQuery,
+    useFetchProductsQuery,
+    useLazyFetchProductsQuery,
+    useFetchVariantsForProductQuery,
+} = productsApi;
 
 export default productsApi;
