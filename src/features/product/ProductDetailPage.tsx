@@ -11,23 +11,15 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router';
 
 import type { ProductVariant } from '../../types/product';
 
 import { useFetchProductQuery, useFetchVariantsForProductQuery } from '../../api/product/api';
 import { Price } from '../../components/common/Price';
+import { useIdParams } from '../../utils/useIdParams';
 import { ImageCarousel } from './components/ImageCarousel';
 import { OptionsList } from './components/OptionsList';
 import { StockIndicator } from './components/StockIndicator';
-
-export const useIdParams = () => {
-    const params = useParams();
-
-    return Object.entries(params).reduce<Record<string, number>>((acc, [key, value]) => {
-        return { ...acc, [key]: Number(value) };
-    }, {});
-};
 
 const ProductDetailPage = () => {
     const { productId } = useIdParams();

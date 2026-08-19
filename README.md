@@ -16,6 +16,7 @@ This project is the front-end part of the "Final Store" project.
 # Install dependencies
 npm i
 ```
+
 ```bash
 # Run the dev server
 npm run dev

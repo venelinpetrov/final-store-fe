@@ -1,7 +1,7 @@
 import { Button, Heading } from '@chakra-ui/react';
 import { useOutletContext } from 'react-router';
 
-import type { User } from '../../api/auth/api';
+import type { User } from '../../types/user';
 
 import { logoutUser } from '../../api/auth/thunks';
 import { useAppDispatch } from '../../api/store';

@@ -1,16 +1,8 @@
+import type { JwtResponse, LoginRequest } from '../../types/auth';
 import type { User } from '../../types/user';
 
 import { Tag } from '../cacheTags';
 import { finalStoreApi } from '../initApi';
-
-export interface JwtResponse {
-    accessToken: string;
-}
-
-export interface LoginRequest {
-    email: string;
-    password: string;
-}
 
 const authApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
