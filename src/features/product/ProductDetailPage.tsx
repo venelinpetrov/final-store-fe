@@ -78,6 +78,7 @@ const ProductDetailPage = () => {
             <GridItem as={Stack} gap={8}>
                 {variants && <ImageCarousel items={variantImages} showIndicator />}
                 <Text textStyle="lg">{product?.description}</Text>
+                <Text textStyle="sm">{selectedVariant?.sku}</Text>
                 <OptionsList options={selectedVariant?.options} />
             </GridItem>
 
