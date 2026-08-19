@@ -15,7 +15,7 @@ import { useParams } from 'react-router';
 
 import type { ProductVariant } from '../../types/product';
 
-import { useFetchProductQuery, useFetchVariantsForProductQuery } from '../../api/products/api';
+import { useFetchProductQuery, useFetchVariantsForProductQuery } from '../../api/product/api';
 import { Price } from '../../components/common/Price';
 import { ImageCarousel } from './components/ImageCarousel';
 import { OptionsList } from './components/OptionsList';

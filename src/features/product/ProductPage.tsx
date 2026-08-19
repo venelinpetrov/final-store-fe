@@ -1,7 +1,7 @@
 import { Grid, Heading } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 
-import { useFetchProductsQuery } from '../../api/products/api';
+import { useFetchProductsQuery } from '../../api/product/api';
 import { Pager } from '../../components/common/Pager';
 import { ProductCard } from './components/ProductCard';
 
