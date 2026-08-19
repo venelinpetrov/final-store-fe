@@ -1,5 +1,6 @@
 import type { User } from '../../types/user';
 
+import { Tag } from '../cacheTags';
 import { finalStoreApi } from '../initApi';
 
 export interface JwtResponse {
@@ -19,7 +20,7 @@ const authApi = finalStoreApi.injectEndpoints({
                 method: 'POST',
                 body: credentials,
             }),
-            invalidatesTags: ['me'],
+            invalidatesTags: [{ type: Tag.ME }],
         }),
 
         logout: build.mutation<void, void>({
@@ -41,7 +42,7 @@ const authApi = finalStoreApi.injectEndpoints({
                 url: '/auth/me',
                 method: 'GET',
             }),
-            providesTags: ['me'],
+            providesTags: [{ type: Tag.ME }],
         }),
 
         // me/password

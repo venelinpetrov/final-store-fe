@@ -9,6 +9,7 @@ import type { RootState } from './store';
 
 import authApi from './auth/api';
 import { clearAccessToken, setAccessToken } from './auth/authSlice';
+import { Tag } from './cacheTags';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:8080/api', // TODO: env var
@@ -51,8 +52,7 @@ const baseQueryWithReauth: BaseQueryFn<any, unknown, FetchBaseQueryError> = asyn
 
 export const finalStoreApi = createApi({
     reducerPath: 'finalStoreApi',
-    tagTypes: ['me', 'products'],
-
+    tagTypes: Object.values(Tag),
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}) as Record<string, any>,
 });

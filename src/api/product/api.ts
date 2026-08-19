@@ -1,6 +1,7 @@
 import type { Pageable } from '../../types/common/pageable';
 import type { Product, ProductSummary, ProductVariant } from '../../types/product';
 
+import { LIST, Tag } from '../cacheTags';
 import { finalStoreApi } from '../initApi';
 
 const productsApi = finalStoreApi.injectEndpoints({
@@ -10,7 +11,7 @@ const productsApi = finalStoreApi.injectEndpoints({
                 url: `/products/${productId}`,
                 method: 'GET',
             }),
-            // providesTags: ['product'],
+            providesTags: (_res, _err, { productId }) => [{ type: Tag.PRODUCT, id: productId }],
         }),
         fetchProducts: build.query<
             Pageable<ProductSummary>,
@@ -21,7 +22,7 @@ const productsApi = finalStoreApi.injectEndpoints({
                 method: 'GET',
                 params,
             }),
-            providesTags: ['products'],
+            providesTags: () => [{ type: Tag.PRODUCT, id: LIST }],
         }),
         fetchVariantsForProduct: build.query<ProductVariant[], { productId: number }>({
             query: ({ productId }) => ({
