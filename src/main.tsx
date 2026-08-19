@@ -29,9 +29,9 @@ createRoot(document.getElementById('root')!).render(
                             <Route path="/about" element={<AboutPage />} />
                             <Route path="/contact" element={<ContactPage />} />
                             <Route path="/login" element={<LoginPage />} />
+                            <Route path="/cart" element={<CartPage />} />
                             <Route element={<ProtectedRoute />}>
                                 <Route path="/profile" element={<ProfilePage />} />
-                                <Route path="/cart" element={<CartPage />} />
                                 <Route path="/admin" element={<AdminPage />} />
                             </Route>
                         </Route>
