@@ -29,21 +29,21 @@ const cartApi = finalStoreApi.injectEndpoints({
             }),
         }),
 
-        addCartItem: build.mutation<void, { cartId: UUID; data: CartItemAdd }>({
-            query: ({ cartId, data }) => ({
-                url: `/carts/${cartId}`,
+        addCartItem: build.mutation<void, { cartId: UUID; body: CartItemAdd }>({
+            query: ({ cartId, body }) => ({
+                url: `/carts/${cartId}/items`,
                 method: 'POST',
-                data,
+                body,
             }),
             invalidatesTags: (_red, err, { cartId }) =>
                 err ? [] : [{ type: Tag.CART, id: cartId }],
         }),
 
-        updateCart: build.mutation<void, { cartId: UUID; variantId: Id; data: CartItemUpdate }>({
-            query: ({ cartId, variantId, data }) => ({
+        updateCart: build.mutation<void, { cartId: UUID; variantId: Id; body: CartItemUpdate }>({
+            query: ({ cartId, variantId, body }) => ({
                 url: `/carts/${cartId}/items/${variantId}`,
                 method: 'PUT',
-                data,
+                body,
             }),
             invalidatesTags: (_red, err, { cartId }) =>
                 err ? [] : [{ type: Tag.CART, id: cartId }],

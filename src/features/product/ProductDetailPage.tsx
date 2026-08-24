@@ -14,8 +14,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 import type { ProductVariant } from '../../types/product';
 
+import { useAddCartItemMutation, useCreateCartMutation } from '../../api/cart/api';
 import { useFetchProductQuery, useFetchVariantsForProductQuery } from '../../api/product/api';
 import { Price } from '../../components/common/Price';
+import { useForm } from '../../utils/form';
 import { useIdParams } from '../../utils/useIdParams';
 import { ImageCarousel } from './components/ImageCarousel';
 import { OptionsList } from './components/OptionsList';
@@ -23,11 +25,39 @@ import { StockIndicator } from './components/StockIndicator';
 
 const ProductDetailPage = () => {
     const { productId } = useIdParams();
+
     const { data: product, isLoading: isProductLoading } = useFetchProductQuery({
         productId: productId,
     });
+
     const { data: variants, isLoading: isVariantsLoading } = useFetchVariantsForProductQuery({
         productId: productId,
+    });
+
+    const [getOrCreateCart, { isLoading: isGetOrCreateCartLoading }] = useCreateCartMutation();
+
+    const [addCartItem, { isLoading: isAddCartItemLoading }] = useAddCartItemMutation();
+
+    const { values, setFieldValue, handleSubmit } = useForm({
+        initialValues: {
+            quantity: '1',
+        },
+        onSubmit: async ({ quantity }) => {
+            const cart = await getOrCreateCart().unwrap();
+
+            if (!selectedVariant?.variantId) {
+                console.error('Invalid purchase state');
+                throw new Error('Invalid purchase state');
+            }
+
+            await addCartItem({
+                cartId: cart.cartId,
+                body: {
+                    variantId: selectedVariant?.variantId,
+                    quantity: Number.parseInt(quantity),
+                },
+            });
+        },
     });
 
     const variantIdToVariantMap = useMemo(() => {
@@ -92,13 +122,28 @@ const ProductDetailPage = () => {
                     discount={selectedVariant?.discount}
                 />
                 <StockIndicator quantityInStock={selectedVariant?.quantityInStock} />
-                <HStack gap={4}>
-                    <NumberInput.Root width="65px" defaultValue="1" min={1} max={50}>
-                        <NumberInput.Control />
-                        <NumberInput.Input />
-                    </NumberInput.Root>
-                    <Button colorPalette="blue">Add to cart</Button>
-                </HStack>
+                <form onSubmit={handleSubmit} noValidate>
+                    <HStack gap={4}>
+                        <NumberInput.Root
+                            width="65px"
+                            value={values.quantity}
+                            min={1}
+                            max={50}
+                            name="quantity"
+                            onValueChange={(data) => setFieldValue('quantity', data.value)}
+                        >
+                            <NumberInput.Input />
+                            <NumberInput.Control />
+                        </NumberInput.Root>
+                        <Button
+                            type="submit"
+                            colorPalette="blue"
+                            loading={isGetOrCreateCartLoading || isAddCartItemLoading}
+                        >
+                            Add to cart
+                        </Button>
+                    </HStack>
+                </form>
             </GridItem>
         </Grid>
     );
