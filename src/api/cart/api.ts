@@ -67,11 +67,10 @@ const cartApi = finalStoreApi.injectEndpoints({
                 err ? [] : [{ type: Tag.CART, id: cartId }],
         }),
 
-        associateCart: build.mutation<void, { sessionId: UUID }>({
-            query: ({ sessionId }) => ({
+        associateCart: build.mutation<void, void>({
+            query: () => ({
                 url: `/carts/associate`,
                 method: 'POST',
-                params: { sessionId },
             }),
         }),
     }),
