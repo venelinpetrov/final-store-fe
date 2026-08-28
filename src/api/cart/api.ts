@@ -6,20 +6,12 @@ import { finalStoreApi } from '../initApi';
 
 const cartApi = finalStoreApi.injectEndpoints({
     endpoints: (build) => ({
-        getCartById: build.query<Cart, { cartId: UUID }>({
-            query: ({ cartId }) => ({
-                url: `/carts/${cartId}`,
+        getMyCart: build.query<Cart, void>({
+            query: () => ({
+                url: '/carts/my-cart',
                 method: 'GET',
             }),
-            providesTags: (_res, _err, { cartId }) => [{ type: Tag.CART, id: cartId }],
-        }),
-
-        getCartBySessionId: build.query<Cart, { sessionId: UUID }>({
-            query: ({ sessionId }) => ({
-                url: `/carts/session/${sessionId}`,
-                method: 'GET',
-            }),
-            providesTags: (_res, _err, { sessionId: cartId }) => [{ type: Tag.CART, id: cartId }],
+            providesTags: [Tag.CART],
         }),
 
         createCart: build.mutation<Cart, void>({
@@ -27,6 +19,7 @@ const cartApi = finalStoreApi.injectEndpoints({
                 url: '/carts',
                 method: 'POST',
             }),
+            invalidatesTags: (_red, err) => (err ? [] : [{ type: Tag.CART }]),
         }),
 
         addCartItem: build.mutation<void, { cartId: UUID; body: CartItemAdd }>({
@@ -36,7 +29,7 @@ const cartApi = finalStoreApi.injectEndpoints({
                 body,
             }),
             invalidatesTags: (_red, err, { cartId }) =>
-                err ? [] : [{ type: Tag.CART, id: cartId }],
+                err ? [] : [{ type: Tag.CART, id: cartId }, { type: Tag.CART }],
         }),
 
         updateCart: build.mutation<void, { cartId: UUID; variantId: Id; body: CartItemUpdate }>({
@@ -77,6 +70,7 @@ const cartApi = finalStoreApi.injectEndpoints({
 });
 
 export const {
+    useGetMyCartQuery,
     useGetCartByIdQuery,
     useGetCartBySessionIdQuery,
     useCreateCartMutation,

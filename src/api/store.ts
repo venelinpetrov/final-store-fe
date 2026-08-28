@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import authReducer from './auth/authSlice';
 import { finalStoreApi } from './initApi';
@@ -23,6 +23,8 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+
+export const useAppSelector = useSelector.withTypes<RootState>();
 
 export type AppThunk<ReturnType = void> = (
     dispatch: AppDispatch,

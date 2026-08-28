@@ -4,13 +4,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import authApi from './api';
 
+/**
+ * Auth state
+ *
+ * string - authenticated
+ *
+ * null - annonymous
+ *
+ * undefined - not determined yet (initial state)
+ */
 type AuthState = {
-    accessToken: string | null;
+    accessToken: string | null | undefined;
 };
 
 const slice = createSlice({
     name: 'auth',
-    initialState: { accessToken: null } as AuthState,
+    initialState: { accessToken: undefined } as AuthState,
     reducers: {
         setAccessToken: (
             state,

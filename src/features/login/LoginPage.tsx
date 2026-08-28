@@ -1,10 +1,12 @@
 import { Button, Field, Input, Stack } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import * as yup from 'yup';
 
 import { useLoginMutation } from '../../api/auth/api';
 import { setAccessToken } from '../../api/auth/authSlice';
-import { useAppDispatch } from '../../api/store';
+import { isAuthenticatedSelector } from '../../api/auth/selectors';
+import { useAppDispatch, useAppSelector } from '../../api/store';
 import { toaster } from '../../components/common/Toaster';
 import { isFetchBaseQueryError } from '../../utils/errorTypeGuards';
 import { useForm } from '../../utils/form';
@@ -15,6 +17,7 @@ const loginFormSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
+    const accessToken = useAppSelector(isAuthenticatedSelector);
     const [login] = useLoginMutation();
     const dispatch = useAppDispatch();
     const location = useLocation();
@@ -34,6 +37,8 @@ const LoginPage = () => {
                 }).unwrap();
 
                 dispatch(setAccessToken({ accessToken: res.accessToken }));
+                const from =
+                    (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
 
                 await navigate(from, { replace: true });
             } catch (err) {
@@ -49,7 +54,11 @@ const LoginPage = () => {
         },
     });
 
-    const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
+    useEffect(() => {
+        if (accessToken) {
+            navigate('/', { replace: true });
+        }
+    }, [accessToken, navigate]);
 
     return (
         <form onSubmit={handleSubmit} noValidate>
