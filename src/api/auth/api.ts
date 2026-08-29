@@ -12,7 +12,7 @@ const authApi = finalStoreApi.injectEndpoints({
                 method: 'POST',
                 body: credentials,
             }),
-            invalidatesTags: [{ type: Tag.ME }],
+            invalidatesTags: [{ type: Tag.ME }, { type: Tag.CART }],
         }),
 
         logout: build.mutation<void, void>({
