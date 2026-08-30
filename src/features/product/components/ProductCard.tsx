@@ -5,6 +5,7 @@ import { NavLink } from 'react-router';
 import type { ProductVariant } from '../../../types/product';
 
 import { Price } from '../../../components/common/Price';
+import { useAddToCart } from '../utils/useAddToCart';
 import { ImageCarousel } from './ImageCarousel';
 
 interface ProductCardProps {
@@ -29,6 +30,8 @@ export const ProductCard = ({ productId, name, description, variants }: ProductC
 
     const currentVariant = variants[page];
 
+    const { handleAddToCart, isLoading } = useAddToCart();
+
     return (
         <Card.Root maxW="sm" overflow="hidden" flexShrink={0}>
             <ImageCarousel items={carouselImages} page={page} onPageChange={setPage} />
@@ -49,7 +52,15 @@ export const ProductCard = ({ productId, name, description, variants }: ProductC
                 <Button variant="solid" asChild>
                     <NavLink to={`/products/${productId}`}>See options</NavLink>
                 </Button>
-                <Button variant="ghost">Add to cart</Button>
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        handleAddToCart({ quantity: 1, variantId: currentVariant.variantId })
+                    }
+                    loading={isLoading}
+                >
+                    Add to cart
+                </Button>
             </Card.Footer>
         </Card.Root>
     );
