@@ -1,4 +1,4 @@
-import type { Cart, CartItemAdd, CartItemUpdate } from '../../types/cart';
+import type { Cart, CartUpdate } from '../../types/cart';
 import type { Id, UUID } from '../../types/common/identifier';
 
 import { Tag } from '../cacheTags';
@@ -22,24 +22,13 @@ const cartApi = finalStoreApi.injectEndpoints({
             invalidatesTags: (_red, err) => (err ? [] : [{ type: Tag.CART }]),
         }),
 
-        addCartItem: build.mutation<void, { cartId: UUID; body: CartItemAdd }>({
-            query: ({ cartId, body }) => ({
-                url: `/carts/${cartId}/items`,
-                method: 'POST',
-                body,
-            }),
-            invalidatesTags: (_red, err, { cartId }) =>
-                err ? [] : [{ type: Tag.CART, id: cartId }, { type: Tag.CART }],
-        }),
-
-        updateCart: build.mutation<void, { cartId: UUID; variantId: Id; body: CartItemUpdate }>({
-            query: ({ cartId, variantId, body }) => ({
-                url: `/carts/${cartId}/items/${variantId}`,
+        updateCart: build.mutation<void, { variantId: Id; body: CartUpdate }>({
+            query: ({ variantId, body }) => ({
+                url: `/carts/items/${variantId}`,
                 method: 'PUT',
                 body,
             }),
-            invalidatesTags: (_red, err, { cartId }) =>
-                err ? [] : [{ type: Tag.CART, id: cartId }],
+            invalidatesTags: (_red, err) => (err ? [] : [{ type: Tag.CART }]),
         }),
 
         deleteCartItem: build.mutation<void, { cartId: UUID; variantId: Id }>({
@@ -74,7 +63,6 @@ export const {
     useGetCartByIdQuery,
     useGetCartBySessionIdQuery,
     useCreateCartMutation,
-    useAddCartItemMutation,
     useUpdateCartMutation,
     useDeleteCartItemMutation,
     useClearCartMutation,

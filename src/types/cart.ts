@@ -1,6 +1,6 @@
 import type { Instant } from './common/datetime';
 import type { UUID } from './common/identifier';
-import type { ProductVariant } from './product';
+import type { Product, ProductVariant } from './product';
 
 export interface Cart {
     cartId: UUID;
@@ -11,17 +11,13 @@ export interface Cart {
 }
 
 export interface CartItem {
+    product: Product;
     variant: ProductVariant;
     quantity: number;
     createdAt: Instant;
     updatedAt: Instant;
 }
 
-export interface CartItemAdd {
-    variantId: number;
-    quantity: number;
-}
-
-export interface CartItemUpdate {
+export interface CartUpdate {
     quantity: number;
 }

@@ -5,7 +5,6 @@ import {
     Heading,
     HStack,
     Image,
-    NumberInput,
     RadioCard,
     Stack,
     Text,
@@ -15,6 +14,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ProductVariant } from '../../types/product';
 
 import { useFetchProductQuery, useFetchVariantsForProductQuery } from '../../api/product/api';
+import { NumberInput } from '../../components/common/NumberInput';
 import { Price } from '../../components/common/Price';
 import { useForm } from '../../utils/form';
 import { useIdParams } from '../../utils/useIdParams';
@@ -111,17 +111,14 @@ const ProductDetailPage = () => {
                 <StockIndicator quantityInStock={selectedVariant?.quantityInStock} />
                 <form onSubmit={handleSubmit} noValidate>
                     <HStack gap={4}>
-                        <NumberInput.Root
-                            width="65px"
-                            value={values.quantity}
-                            min={1}
-                            max={50}
+                        <NumberInput
                             name="quantity"
-                            onValueChange={(data) => setFieldValue('quantity', data.value)}
-                        >
-                            <NumberInput.Input />
-                            <NumberInput.Control />
-                        </NumberInput.Root>
+                            min={1}
+                            max={99}
+                            width="70px"
+                            value={values.quantity}
+                            onChange={(value) => setFieldValue('quantity', value)}
+                        />
                         <Button type="submit" colorPalette="blue" loading={isAddToCartLoading}>
                             Add to cart
                         </Button>

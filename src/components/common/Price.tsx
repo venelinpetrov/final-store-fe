@@ -4,7 +4,7 @@ import { DiscountType, type Discount } from '../../types/discount';
 
 interface PriceProps {
     amount: number | undefined;
-    discount: Discount | undefined;
+    discount?: Discount | undefined;
     size?: 'sm' | 'md' | 'lg';
 }
 
