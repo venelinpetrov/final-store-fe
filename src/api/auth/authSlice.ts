@@ -4,22 +4,19 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import authApi from './api';
 
-/**
- * Auth state
- *
- * string - authenticated
- *
- * null - annonymous
- *
- * undefined - not determined yet (initial state)
- */
 type AuthState = {
-    accessToken: string | null | undefined;
+    accessToken: string | null;
+    initialized: boolean;
+};
+
+const initialState: AuthState = {
+    accessToken: null,
+    initialized: false,
 };
 
 const slice = createSlice({
     name: 'auth',
-    initialState: { accessToken: undefined } as AuthState,
+    initialState,
     reducers: {
         setAccessToken: (
             state,
@@ -27,20 +24,22 @@ const slice = createSlice({
         ) => {
             state.accessToken = accessToken;
         },
+
         clearAccessToken: (state) => {
             state.accessToken = null;
+        },
+
+        setInitialized: (state) => {
+            state.initialized = true;
         },
     },
     extraReducers: (builder) => {
         builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
             state.accessToken = payload.accessToken;
         });
-        builder.addMatcher(authApi.endpoints.refresh.matchFulfilled, (state, { payload }) => {
-            state.accessToken = payload.accessToken;
-        });
     },
 });
 
-export const { setAccessToken, clearAccessToken } = slice.actions;
+export const { setAccessToken, clearAccessToken, setInitialized } = slice.actions;
 
 export default slice.reducer;

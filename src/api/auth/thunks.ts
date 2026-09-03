@@ -1,13 +1,29 @@
 import type { AppThunk } from '../store';
 
-import api from './api';
-import { clearAccessToken } from './authSlice';
+import authApi from './api';
+import { clearAccessToken, setAccessToken, setInitialized } from './authSlice';
 
 export const logoutUser = (): AppThunk => async (dispatch) => {
     try {
-        await dispatch(api.endpoints.logout.initiate()).unwrap();
+        await dispatch(authApi.endpoints.logout.initiate()).unwrap();
     } finally {
         dispatch(clearAccessToken());
-        dispatch(api.util.resetApiState());
+        dispatch(authApi.util.resetApiState());
+    }
+};
+
+export const initializeAuth = (): AppThunk => async (dispatch) => {
+    try {
+        const result = await dispatch(authApi.endpoints.refresh.initiate()).unwrap();
+
+        dispatch(
+            setAccessToken({
+                accessToken: result.accessToken,
+            }),
+        );
+    } catch {
+        dispatch(clearAccessToken());
+    } finally {
+        dispatch(setInitialized());
     }
 };

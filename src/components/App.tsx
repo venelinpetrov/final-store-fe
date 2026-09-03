@@ -2,21 +2,18 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import AboutPage from '../features/about/About.tsx';
 import AdminPage from '../features/admin/AdminPage.tsx';
-import CartPage from '../features/cart/Cart.tsx';
+import CartPage from '../features/cart/CartPage.tsx';
 import ContactPage from '../features/contact/Contact.tsx';
 import LoginPage from '../features/login/LoginPage.tsx';
 import ProductDetailPage from '../features/product/ProductDetailPage.tsx';
 import ProductPage from '../features/product/ProductPage.tsx';
 import ProfilePage from '../features/profile/ProfilePage.tsx';
-import { useInitAuth } from '../utils/useInitAuth.ts';
 import { ProtectedRoute } from './auth/ProtectedRoute.tsx';
 import { Provider as ChakraProvider } from './common/ChakraProvider.tsx';
 import { Toaster } from './common/Toaster.tsx';
 import Layout from './layout/Layout.tsx';
 
 const App = () => {
-    useInitAuth();
-
     return (
         <ChakraProvider>
             <BrowserRouter>
