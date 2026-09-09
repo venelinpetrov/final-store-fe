@@ -59,7 +59,7 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
             <Card.Body justifyContent="center">
                 <HStack justifyContent="space-between">
                     <Stack>
-                        <Card.Title mb="2">The perfect latte</Card.Title>
+                        <Card.Title mb="2">{product.name}</Card.Title>
                         <Card.Description>{product.description}</Card.Description>
                     </Stack>
                     <HStack gap={4}>
