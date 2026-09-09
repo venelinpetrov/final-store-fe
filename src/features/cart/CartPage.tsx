@@ -38,7 +38,8 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
             updateCart({
                 variantId: variant.variantId,
                 body: {
-                    quantity: Number.parseInt(localQuantity),
+                    // Send the delta, i.e. how much the quantity increased / decreased
+                    quantity: Number.parseInt(localQuantity) - quantity,
                 },
             });
         }, QUANTITY_INPUT_DEBOUNCE_TIME);
@@ -58,14 +59,16 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
             />
             <Card.Body justifyContent="center">
                 <HStack justifyContent="space-between">
-                    <Stack>
+                    <Stack maxW="50%">
                         <Card.Title mb="2">{product.name}</Card.Title>
                         <Card.Description>{product.description}</Card.Description>
                     </Stack>
-                    <HStack gap={4}>
+                    <HStack gap={4} marginLeft="auto">
                         <Price amount={variant.unitPrice} discount={variant.discount} size="lg" />
                         <NumberInput
                             name="quantity"
+                            min={1}
+                            max={1000}
                             value={String(localQuantity)}
                             disabled={isUpdateCartLoading}
                             onChange={setLocalQuantity}
