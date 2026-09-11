@@ -31,13 +31,12 @@ const cartApi = finalStoreApi.injectEndpoints({
             invalidatesTags: (_red, err) => (err ? [] : [{ type: Tag.CART }]),
         }),
 
-        deleteCartItem: build.mutation<void, { cartId: UUID; variantId: Id }>({
-            query: ({ cartId, variantId }) => ({
-                url: `/carts/${cartId}/items/${variantId}`,
+        deleteCartItem: build.mutation<void, { variantId: Id }>({
+            query: ({ variantId }) => ({
+                url: `/carts/items/${variantId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (_red, err, { cartId }) =>
-                err ? [] : [{ type: Tag.CART, id: cartId }],
+            invalidatesTags: (_red, err) => (err ? [] : [{ type: Tag.CART }]),
         }),
 
         clearCart: build.mutation<void, { cartId: UUID }>({

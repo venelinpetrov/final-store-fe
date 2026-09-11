@@ -1,11 +1,16 @@
-import { Card, HStack, Image, Stack } from '@chakra-ui/react';
+import { Card, HStack, Image, Stack, IconButton } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { HiOutlineTrash } from 'react-icons/hi';
 
 import type { CartItem } from '../../types/cart';
 import type { Product, ProductVariant } from '../../types/product';
 
 import { authTokenSelector } from '../../api/auth/selectors';
-import { useGetMyCartQuery, useUpdateCartMutation } from '../../api/cart/api';
+import {
+    useDeleteCartItemMutation,
+    useGetMyCartQuery,
+    useUpdateCartMutation,
+} from '../../api/cart/api';
 import { useAppSelector } from '../../api/store';
 import { NumberInput } from '../../components/common/NumberInput';
 import { Price } from '../../components/common/Price';
@@ -24,6 +29,8 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
     const [localQuantity, setLocalQuantity] = useState(String(quantity));
 
     const [updateCart, { isLoading: isUpdateCartLoading }] = useUpdateCartMutation();
+
+    const [deleteCartItem, { isLoading: isDeleteCartItemLoading }] = useDeleteCartItemMutation();
 
     useEffect(() => {
         setLocalQuantity(String(quantity));
@@ -64,15 +71,24 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
                         <Card.Description>{product.description}</Card.Description>
                     </Stack>
                     <Price amount={variant.unitPrice} discount={variant.discount} size="lg" />
-                    <NumberInput
-                        name="quantity"
-                        min={1}
-                        max={1000}
-                        width="100px"
-                        value={String(localQuantity)}
-                        disabled={isUpdateCartLoading}
-                        onChange={setLocalQuantity}
-                    />
+                    <HStack>
+                        <NumberInput
+                            name="quantity"
+                            min={1}
+                            max={1000}
+                            width="100px"
+                            value={String(localQuantity)}
+                            disabled={isUpdateCartLoading}
+                            onChange={setLocalQuantity}
+                        />
+                        <IconButton
+                            variant="outline"
+                            disabled={isDeleteCartItemLoading}
+                            onClick={() => deleteCartItem({ variantId: variant.variantId })}
+                        >
+                            <HiOutlineTrash />
+                        </IconButton>
+                    </HStack>
                 </HStack>
             </Card.Body>
         </Card.Root>
@@ -90,14 +106,16 @@ const CartPage = () => {
         <Stack gap={4}>
             {isLoading
                 ? 'Loading...'
-                : (cart?.cartItems.map((item, idx) => (
-                      <CartItem
-                          key={idx}
-                          product={item.product}
-                          variant={item.variant}
-                          quantity={item.quantity}
-                      />
-                  )) ?? 'Cart is empty')}
+                : (cart?.cartItems
+                      .filter((item) => Boolean(item.quantity))
+                      .map((item, idx) => (
+                          <CartItem
+                              key={idx}
+                              product={item.product}
+                              variant={item.variant}
+                              quantity={item.quantity}
+                          />
+                      )) ?? 'Cart is empty')}
         </Stack>
     );
 };
