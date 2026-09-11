@@ -29,17 +29,27 @@ export const Price = ({ amount, discount, size = 'md' }: PriceProps) => {
 
     return (
         <Stack>
-            <Text textStyle={size}>{formattedAmount}</Text>
             {!discount?.value ? (
-                ''
+                <Text textStyle={size}>{formattedAmount}</Text>
             ) : (
-                <HStack>
-                    <Tag.Root colorPalette="red">
-                        <Tag.Label>{formattedDiscount}</Tag.Label>
-                    </Tag.Root>
-                    <Text textStyle="xs">Valid until: {discount.validUntil}</Text>
-                </HStack>
+                <>
+                    <Text textStyle={size}>€{getDiscountedPrice(amount, discount.value)}</Text>
+                    <HStack>
+                        <Text textStyle={size} textDecoration="line-through" color="gray.600">
+                            {formattedAmount}
+                        </Text>
+
+                        <Tag.Root colorPalette="red">
+                            <Tag.Label>{formattedDiscount}</Tag.Label>
+                        </Tag.Root>
+                        <Text textStyle="xs">Valid until: {discount.validUntil}</Text>
+                    </HStack>
+                </>
             )}
         </Stack>
     );
 };
+
+// TODO: This is just for illustration now. Return it from BE
+const getDiscountedPrice = (amount: number, discount: number) =>
+    ((amount * (100 - discount)) / 100).toFixed(2);

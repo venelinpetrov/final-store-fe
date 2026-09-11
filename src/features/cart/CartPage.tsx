@@ -63,17 +63,16 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
                         <Card.Title mb="2">{product.name}</Card.Title>
                         <Card.Description>{product.description}</Card.Description>
                     </Stack>
-                    <HStack gap={4} marginLeft="auto">
-                        <Price amount={variant.unitPrice} discount={variant.discount} size="lg" />
-                        <NumberInput
-                            name="quantity"
-                            min={1}
-                            max={1000}
-                            value={String(localQuantity)}
-                            disabled={isUpdateCartLoading}
-                            onChange={setLocalQuantity}
-                        />
-                    </HStack>
+                    <Price amount={variant.unitPrice} discount={variant.discount} size="lg" />
+                    <NumberInput
+                        name="quantity"
+                        min={1}
+                        max={1000}
+                        width="100px"
+                        value={String(localQuantity)}
+                        disabled={isUpdateCartLoading}
+                        onChange={setLocalQuantity}
+                    />
                 </HStack>
             </Card.Body>
         </Card.Root>
