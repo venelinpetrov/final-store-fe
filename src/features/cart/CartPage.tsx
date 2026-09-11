@@ -14,6 +14,7 @@ import {
 import { useAppSelector } from '../../api/store';
 import { NumberInput } from '../../components/common/NumberInput';
 import { Price } from '../../components/common/Price';
+import { StockIndicator } from '../product/components/StockIndicator';
 
 const QUANTITY_INPUT_DEBOUNCE_TIME = 500;
 
@@ -73,8 +74,13 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
                     <Stack maxW="50%">
                         <Card.Title mb="2">{product.name}</Card.Title>
                         <Card.Description>{product.description}</Card.Description>
+                        <StockIndicator quantityInStock={variant.quantityInStock} />
                     </Stack>
-                    <Price amount={variant.unitPrice} discount={variant.discount} size="lg" />
+                    <Price
+                        amount={quantity * variant.unitPrice}
+                        discount={variant.discount}
+                        size="lg"
+                    />
                     <HStack>
                         <NumberInput
                             name="quantity"
