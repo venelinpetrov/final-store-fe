@@ -41,14 +41,18 @@ const CartItem = ({ product, variant, quantity }: CartItemProps) => {
             return;
         }
 
-        const timeout = setTimeout(() => {
-            updateCart({
-                variantId: variant.variantId,
-                body: {
-                    // Send the delta, i.e. how much the quantity increased / decreased
-                    quantity: Number.parseInt(localQuantity) - quantity,
-                },
-            });
+        const timeout = setTimeout(async () => {
+            try {
+                await updateCart({
+                    variantId: variant.variantId,
+                    body: {
+                        // Send the delta, i.e. how much the quantity increased / decreased
+                        quantity: Number.parseInt(localQuantity) - quantity,
+                    },
+                }).unwrap();
+            } catch {
+                setLocalQuantity(String(quantity));
+            }
         }, QUANTITY_INPUT_DEBOUNCE_TIME);
 
         return () => clearTimeout(timeout);
