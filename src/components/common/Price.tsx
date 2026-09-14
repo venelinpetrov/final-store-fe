@@ -5,20 +5,20 @@ import { DiscountType, type Discount } from '../../types/discount';
 interface PriceProps {
     amount: number | undefined;
     discount?: Discount | undefined;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+    hideValidUntil?: boolean;
 }
 
-export const Price = ({ amount, discount, size = 'md' }: PriceProps) => {
+export const Price = ({ amount, discount, size = 'md', hideValidUntil = false }: PriceProps) => {
     if (typeof amount === 'undefined') {
         return '';
     }
     // TODO currency support. Should come from e.g. "currency provider"
-    const formattedAmount = `€${amount}`;
     let formattedDiscount = '';
 
     switch (discount?.discountType) {
         case DiscountType.FIXED:
-            formattedDiscount = `-€${discount?.value}`;
+            formattedDiscount = `-${formatCurrency(discount?.value)}`;
             break;
         case DiscountType.PERCENTAGE:
             formattedDiscount = `-${discount?.value}%`;
@@ -30,19 +30,22 @@ export const Price = ({ amount, discount, size = 'md' }: PriceProps) => {
     return (
         <Stack>
             {!discount?.value ? (
-                <Text textStyle={size}>{formattedAmount}</Text>
+                <Text textStyle={size}>{formatCurrency(amount)}</Text>
             ) : (
                 <>
-                    <Text textStyle={size}>€{getDiscountedPrice(amount, discount.value)}</Text>
+                    <Text textStyle={size}>{getDiscountedPrice(amount, discount.value)}</Text>
                     <HStack>
                         <Text textStyle={size} textDecoration="line-through" color="gray.600">
-                            {formattedAmount}
+                            {formatCurrency(amount)}
                         </Text>
 
                         <Tag.Root colorPalette="red">
                             <Tag.Label>{formattedDiscount}</Tag.Label>
                         </Tag.Root>
-                        <Text textStyle="xs">Valid until: {discount.validUntil}</Text>
+
+                        {!hideValidUntil && (
+                            <Text textStyle="xs">Valid until: {discount.validUntil}</Text>
+                        )}
                     </HStack>
                 </>
             )}
@@ -52,4 +55,11 @@ export const Price = ({ amount, discount, size = 'md' }: PriceProps) => {
 
 // TODO: This is just for illustration now. Return it from BE
 const getDiscountedPrice = (amount: number, discount: number) =>
-    ((amount * (100 - discount)) / 100).toFixed(2);
+    formatCurrency((amount * (100 - discount)) / 100);
+
+function formatCurrency(value: number, currency: 'EUR' | 'USD' = 'EUR', locale: string = 'en-US') {
+    return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+    }).format(value);
+}

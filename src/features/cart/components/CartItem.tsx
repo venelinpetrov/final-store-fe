@@ -53,7 +53,7 @@ export const CartItem = ({ product, variant, quantity }: CartItemProps) => {
     }, [localQuantity, quantity, variant.variantId, updateCart]);
 
     return (
-        <Card.Root flexDirection="row" overflow="hidden" size="sm">
+        <Card.Root flexDirection="row" overflow="hidden" size="sm" flexShrink={0}>
             <Image
                 objectFit="cover"
                 maxW="100px"
@@ -73,6 +73,7 @@ export const CartItem = ({ product, variant, quantity }: CartItemProps) => {
                         amount={quantity * variant.unitPrice}
                         discount={variant.discount}
                         size="lg"
+                        hideValidUntil
                     />
                     <HStack>
                         <NumberInput

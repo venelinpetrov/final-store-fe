@@ -1,4 +1,5 @@
-import { Card, Grid, GridItem, Heading, Stack } from '@chakra-ui/react';
+import { Button, Card, Grid, GridItem, Heading, HStack, Stack, Text } from '@chakra-ui/react';
+import { HiArrowRight } from 'react-icons/hi';
 
 import { authTokenSelector } from '../../api/auth/selectors';
 import { useGetMyCartQuery } from '../../api/cart/api';
@@ -14,8 +15,20 @@ const CartPage = () => {
     });
 
     return (
-        <Grid templateColumns="4fr 1fr" templateRows="1fr" gap={8} flex={1}>
-            <GridItem as={Stack} gap={4}>
+        <Grid
+            gap={4}
+            flex={1}
+            height="100%"
+            xl={{
+                gridTemplateColumns: '4fr 1fr',
+                gridTemplateRows: '1fr',
+            }}
+            md={{
+                gridTemplateColumns: '1fr',
+                gridTemplateRows: '1fr auto',
+            }}
+        >
+            <GridItem as={Stack} gap={4} overflow="auto">
                 {isLoading
                     ? 'Loading...'
                     : (cart?.cartItems
@@ -32,13 +45,16 @@ const CartPage = () => {
             <GridItem as={Stack}>
                 <Card.Root size="sm" flex={1}>
                     <Card.Header>
-                        <Heading size="2xl">
-                            Total: <Price amount={34233} size="lg" />
+                        <Heading size="2xl" as={HStack}>
+                            Total: <Price amount={34233} size="2xl" />
                         </Heading>
+                        <Text color="gray.500">All prices include VAT.</Text>
                     </Card.Header>
-                    <Card.Body color="fg.muted">
-                        This is the card body. Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit.
+                    <Card.Body color="fg.muted" as={Stack} gap={4}>
+                        <Button type="submit" colorPalette="green">
+                            Proceed to Checkout
+                            <HiArrowRight />
+                        </Button>
                     </Card.Body>
                 </Card.Root>
             </GridItem>
