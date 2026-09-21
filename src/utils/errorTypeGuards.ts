@@ -10,14 +10,31 @@ export function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryEr
     return typeof error === 'object' && error != null && 'status' in error;
 }
 
+export type ApiError = {
+    message: string;
+    errors: string[];
+};
+
 /**
- * Type predicate to narrow an unknown error to an object with a string 'message' property
+ * Type predicate to narrow an unknown error to `ApiError`
  */
-export function isErrorWithMessage(error: unknown): error is { message: string } {
+export function isApiError(data: unknown): data is ApiError {
     return (
-        typeof error === 'object' &&
-        error != null &&
-        'message' in error &&
-        typeof (error as any).message === 'string'
+        typeof data === 'object' &&
+        data !== null &&
+        'message' in data &&
+        typeof data.message === 'string' &&
+        'errors' in data
     );
+}
+
+/**
+ * Exctract error message from `FetchBaseQueryError` object
+ */
+export function getErrorMessage(error: FetchBaseQueryError): string {
+    if (isApiError(error.data)) {
+        return error.data.message;
+    }
+
+    return '';
 }
