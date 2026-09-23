@@ -1,4 +1,4 @@
-import { Button, Card, Grid, GridItem, Heading, HStack, Stack, Text } from '@chakra-ui/react';
+import { Button, Card, Grid, GridItem, Heading, HStack, Stack } from '@chakra-ui/react';
 import { HiArrowRight } from 'react-icons/hi';
 
 import { authTokenSelector } from '../../api/auth/selectors';
@@ -46,9 +46,14 @@ const CartPage = () => {
                 <Card.Root size="sm" flex={1}>
                     <Card.Header>
                         <Heading size="2xl" as={HStack}>
-                            Total: <Price amount={34233} size="2xl" />
+                            Total: <Price amount={cart?.priceSummary.total} size="2xl" />
                         </Heading>
-                        <Text color="gray.500">All prices include VAT.</Text>
+
+                        {cart?.priceSummary.discountAmount && (
+                            <Heading size="lg" as={HStack} color="gray.500">
+                                Discount: <Price amount={cart.priceSummary.discountAmount} />
+                            </Heading>
+                        )}
                     </Card.Header>
                     <Card.Body color="fg.muted" as={Stack} gap={4}>
                         <Button type="submit" colorPalette="green">
