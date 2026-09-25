@@ -51,7 +51,13 @@ const CartPage = () => {
 
                         {cart?.priceSummary.discountAmount && (
                             <Heading size="lg" as={HStack} color="gray.500">
-                                Discount: <Price amount={cart.priceSummary.discountAmount} />
+                                Discount: <Price amount={-1 * cart.priceSummary.discountAmount} />
+                            </Heading>
+                        )}
+
+                        {cart?.priceSummary.taxResult && (
+                            <Heading size="lg" as={HStack} color="gray.500">
+                                Tax: <Price amount={cart.priceSummary.taxResult.taxAmount} />
                             </Heading>
                         )}
                     </Card.Header>
