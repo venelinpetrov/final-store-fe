@@ -1,5 +1,6 @@
 import { Button, Card, Grid, GridItem, Heading, HStack, Stack } from '@chakra-ui/react';
 import { HiArrowRight } from 'react-icons/hi';
+import { NavLink } from 'react-router';
 
 import { authTokenSelector } from '../../api/auth/selectors';
 import { useGetMyCartQuery } from '../../api/cart/api';
@@ -62,8 +63,8 @@ const CartPage = () => {
                         )}
                     </Card.Header>
                     <Card.Body color="fg.muted" as={Stack} gap={4}>
-                        <Button type="submit" colorPalette="green">
-                            Proceed to Checkout
+                        <Button type="submit" colorPalette="green" asChild>
+                            <NavLink to={`/checkout`}>Proceed to Checkout</NavLink>
                             <HiArrowRight />
                         </Button>
                     </Card.Body>

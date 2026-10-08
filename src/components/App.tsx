@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import AboutPage from '../features/about/About.tsx';
 import AdminPage from '../features/admin/AdminPage.tsx';
 import CartPage from '../features/cart/CartPage.tsx';
+import CheckoutPage from '../features/checkout/CheckoutPage.tsx';
 import ContactPage from '../features/contact/Contact.tsx';
 import LoginPage from '../features/login/LoginPage.tsx';
 import ProductDetailPage from '../features/product/ProductDetailPage.tsx';
@@ -25,6 +26,7 @@ const App = () => {
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/cart" element={<CartPage />} />
+                        <Route path="/checkout" element={<CheckoutPage />} />
                         <Route element={<ProtectedRoute />}>
                             <Route path="/profile" element={<ProfilePage />} />
                             <Route path="/admin" element={<AdminPage />} />
