@@ -1,11 +1,24 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, lazyPlugins } from 'vite-plus';
 
-import fmt from './oxfmt.config.ts';
-
 // https://vite.dev/config/
 export default defineConfig({
-    fmt,
+    fmt: {
+        tabWidth: 4,
+        quoteProps: 'consistent',
+        singleQuote: true,
+        sortImports: {
+            groups: [
+                'type-import',
+                ['value-builtin', 'value-external'],
+                'type-internal',
+                'value-internal',
+                ['type-parent', 'type-sibling', 'type-index'],
+                ['value-parent', 'value-sibling', 'value-index'],
+                'unknown',
+            ],
+        },
+    },
     staged: {
         '*': 'vp check --fix',
     },
