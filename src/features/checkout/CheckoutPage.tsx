@@ -1,51 +1,68 @@
-import {
-    Button,
-    ButtonGroup,
-    Container,
-    Heading,
-    HStack,
-    RadioCard,
-    Steps,
-} from '@chakra-ui/react';
+import { Button, ButtonGroup, Container, Heading, Steps } from '@chakra-ui/react';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import type { AddressFormRef } from '../../components/common/AddressForm';
 
 import { useMeQuery } from '../../api/auth/api';
 import { useGetAddressesQuery } from '../../api/customer/api';
-import { addressToString } from '../../utils/addressToString';
-const DetailsForm = () => <div>Details form</div>;
+import { DetailsForm } from './components/DetailsForm';
+
 const DeliveryForm = () => <div>Delivery form</div>;
 const PaymentForm = () => <div>Payment form</div>;
 const CheckoutSummary = () => <div>Summary</div>;
 
-const steps = [
-    {
-        title: 'Yourd details',
-        content: DetailsForm(),
-    },
-    {
-        title: 'Delivery',
-        content: DeliveryForm(),
-    },
-    {
-        title: 'Payment',
-        content: PaymentForm(),
-    },
-    {
-        title: 'Summary',
-        content: CheckoutSummary(),
-    },
-];
-
 const CheckoutPage = () => {
     const { data: user } = useMeQuery();
+    const addressFormRef = useRef<AddressFormRef>(null);
 
     const { data: addresses } = useGetAddressesQuery(
         user?.userId != null ? { customerId: user.userId } : skipToken,
     );
 
     const [step, setStep] = useState(0);
+    const handleNext = async () => {
+        if (step === 0 && !selectedAddress) {
+            const isValid = await addressFormRef.current?.validate();
+
+            if (!isValid) {
+                return;
+            }
+        }
+
+        setStep((prev) => prev + 1);
+        console.log(addressFormRef.current?.getValues());
+    };
     const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+
+    const steps = useMemo(
+        () => [
+            {
+                title: 'Your details',
+                content: (
+                    <DetailsForm
+                        ref={addressFormRef}
+                        addresses={addresses}
+                        selectedAddress={selectedAddress}
+                        onAddressSelect={setSelectedAddress}
+                    />
+                ),
+            },
+            {
+                title: 'Delivery',
+                content: DeliveryForm(),
+            },
+            {
+                title: 'Payment',
+                content: PaymentForm(),
+            },
+            {
+                title: 'Summary',
+                content: CheckoutSummary(),
+            },
+        ],
+        [addresses, selectedAddress, setSelectedAddress],
+    );
 
     useEffect(() => {
         if (!addresses) {
@@ -75,36 +92,6 @@ const CheckoutPage = () => {
                     ))}
                 </Steps.List>
 
-                <RadioCard.Root
-                    value={selectedAddress}
-                    onValueChange={(e) => setSelectedAddress(e.value)}
-                >
-                    <RadioCard.Label>Select address</RadioCard.Label>
-                    <HStack align="stretch">
-                        {!addresses
-                            ? 'TODO: No addresses. Add form'
-                            : addresses.map((address) => (
-                                  <RadioCard.Item
-                                      key={address.addressTypeName}
-                                      value={String(address.addressId)}
-                                  >
-                                      <RadioCard.ItemHiddenInput />
-                                      <RadioCard.ItemControl>
-                                          <RadioCard.ItemContent>
-                                              <RadioCard.ItemText>
-                                                  {address.addressTypeName}
-                                              </RadioCard.ItemText>
-                                              <RadioCard.ItemDescription>
-                                                  {addressToString(address)}
-                                              </RadioCard.ItemDescription>
-                                          </RadioCard.ItemContent>
-                                          <RadioCard.ItemIndicator />
-                                      </RadioCard.ItemControl>
-                                  </RadioCard.Item>
-                              ))}
-                    </HStack>
-                </RadioCard.Root>
-
                 {steps.map((step, index) => (
                     <Steps.Content key={index} index={index}>
                         {step.content}
@@ -115,9 +102,7 @@ const CheckoutPage = () => {
                     <Steps.PrevTrigger asChild>
                         <Button>Prev</Button>
                     </Steps.PrevTrigger>
-                    <Steps.NextTrigger asChild>
-                        <Button>Next</Button>
-                    </Steps.NextTrigger>
+                    <Button onClick={handleNext}>Next</Button>
                 </ButtonGroup>
             </Steps.Root>
         </Container>
