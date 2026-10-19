@@ -9,6 +9,7 @@ import { useGetAddressesQuery } from '../../api/customer/api';
 import { DetailsForm } from './components/DetailsForm';
 
 const DeliveryForm = () => <div>Delivery form</div>;
+
 const PaymentForm = () => <div>Payment form</div>;
 const CheckoutSummary = () => <div>Summary</div>;
 
