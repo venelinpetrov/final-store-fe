@@ -1,14 +1,14 @@
 import { Button, ButtonGroup, Container, Heading, Steps } from '@chakra-ui/react';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { AddressFormRef } from '../../components/common/AddressForm';
+import type { Carrier } from '../../types/carrier';
 
 import { useMeQuery } from '../../api/auth/api';
 import { useGetAddressesQuery } from '../../api/customer/api';
+import { DeliveryForm } from './components/DeliveryForm';
 import { DetailsForm } from './components/DetailsForm';
-
-const DeliveryForm = () => <div>Delivery form</div>;
 
 const PaymentForm = () => <div>Payment form</div>;
 const CheckoutSummary = () => <div>Summary</div>;
@@ -35,7 +35,7 @@ const CheckoutPage = () => {
         console.log(addressFormRef.current?.getValues());
     };
     const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
-
+    const handleCarrierChange = useCallback((carrier: Carrier) => console.log(carrier), []);
     const steps = useMemo(
         () => [
             {
@@ -51,7 +51,7 @@ const CheckoutPage = () => {
             },
             {
                 title: 'Delivery',
-                content: DeliveryForm(),
+                content: <DeliveryForm onCarrierChange={handleCarrierChange} />,
             },
             {
                 title: 'Payment',
@@ -62,7 +62,7 @@ const CheckoutPage = () => {
                 content: CheckoutSummary(),
             },
         ],
-        [addresses, selectedAddress, setSelectedAddress],
+        [addresses, selectedAddress, handleCarrierChange, setSelectedAddress],
     );
 
     useEffect(() => {
