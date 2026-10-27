@@ -4,13 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { AddressFormRef } from '../../components/common/AddressForm';
 import type { Carrier } from '../../types/carrier';
+import type { CustomerPaymentMethod } from '../../types/payments';
 
 import { useMeQuery } from '../../api/auth/api';
 import { useGetAddressesQuery } from '../../api/customer/api';
 import { DeliveryForm } from './components/DeliveryForm';
 import { DetailsForm } from './components/DetailsForm';
+import { PaymentForm } from './components/PaymentForm';
 
-const PaymentForm = () => <div>Payment form</div>;
 const CheckoutSummary = () => <div>Summary</div>;
 
 const CheckoutPage = () => {
@@ -36,6 +37,10 @@ const CheckoutPage = () => {
     };
     const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
     const handleCarrierChange = useCallback((carrier: Carrier) => console.log(carrier), []);
+    const handlePaymentMethodChange = useCallback(
+        (paymentMethod: CustomerPaymentMethod) => console.log(paymentMethod),
+        [],
+    );
     const steps = useMemo(
         () => [
             {
@@ -55,14 +60,20 @@ const CheckoutPage = () => {
             },
             {
                 title: 'Payment',
-                content: PaymentForm(),
+                content: <PaymentForm onPaymentMethodChange={handlePaymentMethodChange} />,
             },
             {
                 title: 'Summary',
                 content: CheckoutSummary(),
             },
         ],
-        [addresses, selectedAddress, handleCarrierChange, setSelectedAddress],
+        [
+            addresses,
+            selectedAddress,
+            handleCarrierChange,
+            handlePaymentMethodChange,
+            setSelectedAddress,
+        ],
     );
 
     useEffect(() => {
