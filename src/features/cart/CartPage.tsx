@@ -15,6 +15,8 @@ const CartPage = () => {
         skip: accessToken === undefined,
     });
 
+    const discountAmount = cart?.priceSummary.discountAmount ?? 0;
+
     return (
         <Grid
             gap={4}
@@ -50,9 +52,9 @@ const CartPage = () => {
                             Total: <Price amount={cart?.priceSummary.total} size="2xl" />
                         </Heading>
 
-                        {cart?.priceSummary.discountAmount && (
+                        {discountAmount > 0 && (
                             <Heading size="lg" as={HStack} color="gray.500">
-                                Discount: <Price amount={-1 * cart.priceSummary.discountAmount} />
+                                Discount: <Price amount={-1 * discountAmount} />
                             </Heading>
                         )}
 
